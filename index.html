@@ -1,0 +1,441 @@
+<html>
+
+   <body>
+
+       <h1> 
+            Nots And Crosses 
+       </h1>
+
+       <p>
+            welcome to my game
+       </p>
+
+       
+        
+        <button class="Button1" onClick="history.go(0);">Clear Score</button>
+
+        <button class="Button2" onClick=resetBoard()>Reset Board</button>
+
+        <button class="Button3" onClick=tutorial()>How To Play</button>
+    
+
+       
+       <table class="center">
+        
+        <tr>
+            <td class="Board" style="height:150px;width:150px" id="0" onClick=makeMove(0) >Cell 0</td>
+            <td class="Board" style="height:150px;width:150px" id="1" onClick=makeMove(1) >Cell 1</td>
+            <td class="Board" style="height:150px;width:150px" id="2" onClick=makeMove(2) >Cell 2</td>
+        </tr>
+        
+        <tr>
+            <td class="Board" style="height:150px;width:150px" id="3" onClick=makeMove(3) >Cell 3</td>
+            <td class="Board" style="height:150px;width:150px" id="4" onClick=makeMove(4) >Cell 4</td>
+            <td class="Board" style="height:150px;width:150px" id="5" onClick=makeMove(5) >Cell 5</td>
+        </tr>
+       
+        <tr>
+            <td class="Board" style="height:150px;width:150px" id="6" onClick=makeMove(6) >Cell 6</td>
+            <td class="Board" style="height:150px;width:150px" id="7" onClick=makeMove(7) >Cell 7</td>
+            <td class="Board" style="height:150px;width:150px" id="8" onClick=makeMove(8) >Cell 8</td>
+        </tr>
+
+        </table>
+
+
+        <!-- score table -->
+        <table class="center2">
+
+        <tr>
+            <td class="scoreT" style="height: 20px;width: 150px;">X Score</td>
+            <td class="scoreT" style="height: 20px;width: 150px;">O Score</td>
+        </tr>
+
+        <tr>
+            <td class="score" style="height: 150px;width: 150px;" id="x"></td>
+            <td class="score" style="height: 150px;width: 150px;" id="o"></td>
+        </tr>
+
+       </table>
+
+       <p>
+            X goes first. press reset score to reset the 
+          
+        </p>
+        
+        <p>
+            score and press clear board to reset the board
+        </p>
+
+    </body>
+
+</html>
+
+
+<style>
+
+    body
+    {
+        background-color: rgb(73, 72, 72);
+    }
+    
+
+    h1
+    {
+       
+        color: rgb(74, 193, 230);
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: black;
+        text-align: center;
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 40px;
+
+    }
+
+    p
+    {
+        color: rgb(74, 193, 230);
+        text-align: center;
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 30px;
+    }
+
+
+    .Button1
+    {
+    
+        background-color: black;
+        color: white;
+        border: 3px solid rgb(74, 193, 230);     
+        height: 40px;
+        width: 90px;  
+        position: absolute;
+        right: 730px; 
+        bottom: 490px;
+    }
+
+    .Button2
+    {
+        background-color: black;
+        color: white;
+        border: 3px solid rgb(74, 193, 230);     
+        height: 40px;
+        width: 90px;  
+        position: absolute;
+        right: 630px; 
+        bottom: 490px;
+    }
+
+    .Button3
+    {
+        background-color: black;
+        color: white;
+        border: 3px solid rgb(74, 193, 230);     
+        height: 40px;
+        width: 90px;  
+        position: absolute;
+        right: 530; 
+        bottom: 490px;
+    }
+    
+
+
+    
+
+    button:hover 
+    {
+        background-color: rgb(35, 123, 150);
+    }   
+
+   table
+    {
+        background-color:black;
+        
+    }
+
+    .Board
+    {
+        text-align: center;
+        color: transparent;
+    }
+
+    td
+    {
+        border: 3px solid rgb(74, 193, 230);
+        border-collapse: collapse;
+    }   
+
+    .center 
+    {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 60px;
+        margin-bottom: 100px;
+    }
+
+    .center2
+    {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .Board:hover 
+    {
+        background-color: rgb(35, 123, 150);
+    }
+    
+    .scoreT
+    {
+        text-align: center;
+        color: antiquewhite;
+    }
+
+    .score
+    {
+        text-align: center;
+        color: white;
+    }
+
+</style>
+
+
+
+
+<script>
+
+    var turn=1;
+    var gameState = Array (0,0,0,0,0,0,0,0,0);
+    var xScore=1;
+    var oScore=1;
+
+    
+    function makeMove(id)
+    {
+        if(gameState[id] == 0)
+        {
+            if(turn==1)
+            {   
+                gameState[id] = 1;
+                document.getElementById(id).innerHTML = "X";
+                document.getElementById(id).style.color = "red";
+                document.getElementById(id).style.font = "bold 120px arial,serif";
+                turn=2;
+                checkStatus(); 
+            }  
+        }
+
+        if(gameState[id] == 0)
+        {
+            if(turn==2)
+            {
+                gameState[id] = 2;
+                document.getElementById(id).innerHTML = "O";
+                document.getElementById(id).style.color = "blue";
+                document.getElementById(id).style.font = "bold 120px arial,serif";
+                turn=1;
+                checkStatus();
+
+            }
+        }
+    }  
+        
+
+
+        function checkStatus()
+        {
+            // red wins
+        if(gameState[0]==1 && gameState[1]==1 && gameState[2]==1)
+        {
+            redWins();
+        }
+        if(gameState[3]==1 && gameState[4]==1 && gameState[5]==1)
+        {
+            redWins();
+        }
+        if(gameState[6]==1 && gameState[7]==1 && gameState[8]==1)
+        {
+            redWins();
+        }
+        if(gameState[0]==1 && gameState[3]==1 && gameState[6]==1)
+        {
+            redWins();
+        }
+        if(gameState[1]==1 && gameState[4]==1 && gameState[7]==1)
+        {
+            redWins();
+        }
+        if(gameState[2]==1 && gameState[5]==1 && gameState[8]==1)
+        {
+            redWins();
+        }
+        if(gameState[0]==1 && gameState[4]==1 && gameState[8]==1)
+        {
+            redWins();
+        }
+        if(gameState[2]==1 && gameState[4]==1 && gameState[6]==1)
+        {
+            redWins();    
+        }
+
+            // blue win
+        if(gameState[0]==2 && gameState[1]==2 && gameState[2]==2)
+        {
+            blueWins();
+        }
+        if(gameState[3]==2 && gameState[4]==2 && gameState[5]==2)
+        {
+            blueWins();
+        }
+        if(gameState[6]==2 && gameState[7]==2 && gameState[8]==2)
+        {
+            blueWins();
+        }
+        if(gameState[0]==2 && gameState[3]==2 && gameState[6]==2)
+        {
+            blueWins();
+        }
+        if(gameState[1]==2 && gameState[4]==2 && gameState[7]==2)
+        {
+            blueWins();
+        }
+        if(gameState[2]==2 && gameState[5]==2 && gameState[8]==2)
+        {
+            blueWins();
+        }
+        if(gameState[0]==2 && gameState[4]==2 && gameState[8]==2)
+        {
+            blueWins();
+        }
+        if(gameState[2]==2 && gameState[4]==2 && gameState[6]==2)
+        {
+            blueWins();  
+        }
+    }
+
+       
+
+    function blueWins()
+    {
+
+        alert("O Wins");
+        alert("Press Reset Board To Play Again");
+        updateScoreO();
+        oScore ++;
+           
+    }
+
+    function redWins()
+    {   
+        
+        alert("X Wins");
+        alert("Press Reset Board To Play Again");
+        updateScoreX();
+        xScore ++;
+           
+    }
+
+    function updateScoreX()
+    {
+        document.getElementById("x").innerHTML = xScore;
+        document.getElementById("x").style.font = "bold 120px arial,serif";
+        document.getElementById("x").style.color = "red";
+    }
+
+    function updateScoreO()
+    {
+        document.getElementById("o").innerHTML = oScore;
+        document.getElementById("o").style.font = "bold 120px arial,serif";
+        document.getElementById("o").style.color = "blue";
+    }
+
+    function resetBoard()
+    {
+        for (var i = 0; i < 9; i++)
+        {
+            document.getElementById(i + "").innerHTML = "";
+            gameState[i] = 0;
+        }
+        turn = 1;
+    }
+
+    function tutorial()
+    {
+        alert("Press A Cell To Select It (X Always Goes First)");
+        alert("Get 3 In A Row To Win");
+        alert("Your Score Is Below The Game Board");
+        alert("Press Reset Score To Set Scores To 0");
+        alert("Press Restet Board To Reset The Board");
+
+    }
+       
+    
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- if your reading this your gay -->
