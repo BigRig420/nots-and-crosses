@@ -47,8 +47,8 @@
         <table class="center2">
 
         <tr>
-            <td class="scoreT" style="height: 20px;width: 150px;">X Score</td>
-            <td class="scoreT" style="height: 20px;width: 150px;">O Score</td>
+            <td class="scoreT" style="height: 20px;width: 150px;">player</td>
+            <td class="scoreT" style="height: 20px;width: 150px;">computer</td>
         </tr>
 
         <tr>
@@ -207,113 +207,226 @@
 
     var turn=1;
     var gameState = Array (0,0,0,0,0,0,0,0,0);
+    var gameScore = Array (0,0,0,0,0,0,0,0,0);
     var xScore=1;
     var oScore=1;
-
+    var randNumber;
+    var mode=1;
+    var priority=1;
+    var stopH=1;
     
     function makeMove(id)
     {
-        if(gameState[id] == 0)
+        makeHumanMove(id);
+        
+       
+       if(mode==1)
+       {
+            if(priority==1)
+            {
+               priority = makePCwin();
+            }
+            if(priority==2)
+            {
+                priority = stopHumanWin();
+            }
+            if(priority==3)
+            {
+               priority = makeRandPCMove();
+            }
+       }
+        
+    }  
+
+    function makeHumanMove(id)
+    {
+        if (gameState[id] == 0)
         {
-            if(turn==1)
-            {   
+            if (stopH=1)
+            {
                 gameState[id] = 1;
+                gameScore[id] = 15;
                 document.getElementById(id).innerHTML = "X";
                 document.getElementById(id).style.color = "red";
                 document.getElementById(id).style.font = "bold 120px arial,serif";
-                turn=2;
-                checkStatus(); 
-            }  
-        }
-
-        if(gameState[id] == 0)
-        {
-            if(turn==2)
-            {
-                gameState[id] = 2;
-                document.getElementById(id).innerHTML = "O";
-                document.getElementById(id).style.color = "blue";
-                document.getElementById(id).style.font = "bold 120px arial,serif";
-                turn=1;
                 checkStatus();
-
             }
         }
-    }  
+        return 2;
+    }
+
+    function makePCwin()
+    {
+        return 2;
+    }
+
+    function stopHumanWin()
+    {
+        if(gameScore[0]+gameScore[1]+gameScore[2]==30)
+        {
+            if(gameScore[0]==0)
+            {
+                gameState[0]=2;
+                gameScore[0]=15;
+                document.getElementById(randNumber).innerHTML = "O";
+                document.getElementById(randNumber).style.color = "blue";
+                document.getElementById(randNumber).style.font = "bold 120px arial,serif";
+                checkStatus();
+                return 1;
+            }
+
+            if(gameScore[1]==0)
+            {
+                gameState[0]=2;
+                gameScore[0]=15;
+                document.getElementById(randNumber).innerHTML = "O";
+                document.getElementById(randNumber).style.color = "blue";
+                document.getElementById(randNumber).style.font = "bold 120px arial,serif";
+                checkStatus();
+                return 1;
+            }
+
+            if(gameScore[2]==0)
+            {
+                gameState[0]=2;
+                gameScore[0]=15;
+                document.getElementById(randNumber).innerHTML = "O";
+                document.getElementById(randNumber).style.color = "blue";
+                document.getElementById(randNumber).style.font = "bold 120px arial,serif";
+                checkStatus();
+                return 1;
+            }
+        }
+        return 3;
+    }
+
+    function makeRandPCMove()
+    {
+      
+        randNumber=Math.floor((Math.random() * 8) + 0);
+
+        if (gameState[randNumber] == 0)
+        {
+            gameState[randNumber] = 2;
+            gameScore[randNumber] = 2;
+            document.getElementById(randNumber).innerHTML = "O";
+            document.getElementById(randNumber).style.color = "blue";
+            document.getElementById(randNumber).style.font = "bold 120px arial,serif";
+            checkStatus();
+            turn=1;
+        }
+        else
+        {
+            makeRandPCMove();
+        }
+        return 1;
+    }
         
 
 
-        function checkStatus()
-        {
+    function checkStatus()
+    {
             // red wins
         if(gameState[0]==1 && gameState[1]==1 && gameState[2]==1)
         {
             redWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[3]==1 && gameState[4]==1 && gameState[5]==1)
         {
             redWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[6]==1 && gameState[7]==1 && gameState[8]==1)
         {
             redWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[0]==1 && gameState[3]==1 && gameState[6]==1)
         {
             redWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[1]==1 && gameState[4]==1 && gameState[7]==1)
         {
             redWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[2]==1 && gameState[5]==1 && gameState[8]==1)
         {
             redWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[0]==1 && gameState[4]==1 && gameState[8]==1)
         {
             redWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[2]==1 && gameState[4]==1 && gameState[6]==1)
         {
-            redWins();    
+            redWins(); 
+            mode=0; 
+            stopH=0;  
         }
 
             // blue win
         if(gameState[0]==2 && gameState[1]==2 && gameState[2]==2)
         {
             blueWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[3]==2 && gameState[4]==2 && gameState[5]==2)
         {
             blueWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[6]==2 && gameState[7]==2 && gameState[8]==2)
         {
             blueWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[0]==2 && gameState[3]==2 && gameState[6]==2)
         {
             blueWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[1]==2 && gameState[4]==2 && gameState[7]==2)
         {
             blueWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[2]==2 && gameState[5]==2 && gameState[8]==2)
         {
             blueWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[0]==2 && gameState[4]==2 && gameState[8]==2)
         {
             blueWins();
+            mode=0;
+            stopH=0;
         }
         if(gameState[2]==2 && gameState[4]==2 && gameState[6]==2)
         {
-            blueWins();  
+            blueWins();
+            mode=0; 
+            stopH=0; 
         }
+    
     }
-
        
 
     function blueWins()
@@ -348,6 +461,7 @@
         document.getElementById("o").innerHTML = oScore;
         document.getElementById("o").style.font = "bold 120px arial,serif";
         document.getElementById("o").style.color = "blue";
+        
     }
 
     function resetBoard()
@@ -358,7 +472,11 @@
             gameState[i] = 0;
         }
         turn = 1;
+        mode=1;
     }
+
+    
+
 
     function tutorial()
     {
@@ -374,68 +492,3 @@
 
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- if your reading this your gay -->
